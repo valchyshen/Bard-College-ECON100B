@@ -1,0 +1,52 @@
+---
+title: "ECON 100 B"
+author: "Oleksandr Valchyshen"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+
+knitr::opts_chunk$set(echo = TRUE)
+
+# This is the file provided by the course's instructor, 
+# it contains useful libraries and functions
+source("ECON 100 B Tools.R")
+
+# R libraries are being attached to this project
+library(fredr)         # Fed Reserve Bank of St. Louis, FRED
+library(bea.R)         # The U.S. Bureau of Economic Analysis
+library(blsR)          # The U.S. Bureau of Labor Statistics
+
+# My access keys, which will be used in this project
+key.FRED   = "3f1722e0293651c883a63c15725200f8"
+key.BEA    = "5125F980-B756-4FED-9173-7AADF5DE8231"
+key.BLS    = "6b732f6c133d48669aadd2790cb71ccc"
+
+# Registering access keys with data providers
+fredr_set_key(key.FRED)
+
+```
+
+# Inflation
+
+The US inflation data is published on a monthly basis by the U.S. Bureau of Labor Statistics: [`https://www.bls.gov/news.release/cpi.nr0.htm`](https://www.bls.gov/news.release/cpi.nr0.htm)
+
+The most recent monthly data on the US inflation is in the following tables and chart (year-on-year percentage change in the consumer price indexes):
+
+```{r echo=FALSE}
+
+# Item codes for CPI, details: https://download.bls.gov/pub/time.series/cu/cu.item
+# Rule for ID construction: CUUR0000 + Item code
+# Example 1: item code for "All Items" is SA0
+#            hence, ID for CPI in "All items" is CUUR0000SA0
+# Example 2: item code for "Used cars and trucks" is SETA02
+#            hence, ID for CPI in "Used cars and trucks" is CUUR0000SETA02
+
+s   <- c("CUUR0000SA0",         # CPI for All-Items
+         "CUUR0000SETA02",      # CPI for Used Cars and Trucks
+         "CUUR0000SAF11211")    # Meats
+
+cpi.plot(s)
+
+```
